@@ -1,0 +1,42 @@
+name: Arduino build
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Arduino CLI
+        uses: arduino/setup-arduino-cli@v2
+
+      - name: Install Arduino Uno core
+        run: |
+          arduino-cli core update-index
+          arduino-cli core install arduino:avr
+
+      - name: Install pinned libraries
+        run: |
+          arduino-cli lib install "DHT sensor library@1.4.7"
+          arduino-cli lib install "Adafruit Unified Sensor@1.1.15"
+          arduino-cli lib install "LiquidCrystal_PCF8574@2.3.0"
+
+      - name: Compile sketch
+        run: |
+          # Arduino CLI requires the sketch directory and .ino filename to
+          # share a base name. Keep the repository root clean while compiling
+          # the uploadable single-file sketch.
+          mkdir -p /tmp/smart_irrigation
+          cp smart_irrigation.ino /tmp/smart_irrigation/smart_irrigation.ino
+          arduino-cli compile \
+            --fqbn arduino:avr:uno \
+            --warnings all \
+            --build-property compiler.cpp.extra_flags="-DSMART_IRRIGATION_DHT_TYPE=DHT22" \
+            /tmp/smart_irrigation

@@ -1,0 +1,35 @@
+# Generated Arduino and simulator artifacts
+build/
+*.elf
+*.hex
+*.bin
+*.eep
+*.map
+
+# Reports and temporary evidence exports
+*.pdf
+*.log
+*.tmp
+*.bak
+
+# Python, editor, and OS metadata
+__pycache__/
+.pytest_cache/
+.venv/
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Local simulator/editor state
+.playwright-mcp/
+.wokwi/
+.velxio/
+
+# Secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.token

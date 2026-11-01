@@ -1,0 +1,7 @@
+[velxio]
+version = 1
+board = "arduino-uno"
+firmware = "build/sketch.ino.hex"
+elf = "build/sketch.ino.elf"
+diagram = "diagram.json"
+language = "arduino"
